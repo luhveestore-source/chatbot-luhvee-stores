@@ -1,26 +1,44 @@
+
 import streamlit as st
 
-# Configuração da página (Título que aparece na aba do navegador)
-st.set_page_config(page_title="LuhVee Stores - Assistente", page_icon="🛍️")
+# Configuração da página
+st.set_page_config(page_title="LuhVee Stores - Oficial", page_icon="🛍️")
 
-# --- DESIGN DA INTERFACE ---
-st.title("🛍️ Bem-vindo à LuhVee Stores")
-st.write("Olá! Sou o seu assistente virtual de ofertas.")
+# --- 1. EXIBIÇÃO DO LOGO ---
+# Tentamos carregar a imagem que você subiu no GitHub
+try:
+    st.image("1000396187.jpg", width=250) # Use o nome exato do arquivo que você subiu
+except:
+    st.title("💖 LUHVEE STORES")
 
-nome = st.text_input("Como podemos te chamar?")
+# --- 2. BOAS-VINDAS ---
+st.write("---")
+nome = st.text_input("Olá! Para começar, qual é o seu nome?")
 
 if nome:
-    st.write(f"Prazer em te atender, *{nome}*! Escolha uma das opções abaixo:")
+    st.subheader(f"Bem-vindo(a), {nome}! ✨")
+    st.write("Escolha uma das nossas vitrines especiais abaixo:")
+
+    # --- 3. DESTAQUES EM COLUNAS ---
+    col1, col2 = st.columns(2)
     
-    # Criando botões bonitos para o cliente clicar
-    if st.button("✨ ACESSAR VITRINE COMPLETA"):
-        st.success("Clique no link abaixo para abrir nossas ofertas:")
-        st.markdown("[👉 CLIQUE AQUI PARA ABRIR A LOJA](https://luhveestore-unbgvh5h.manus.space)")
+    with col1:
+        if st.button("🎁 Mercado Livre"):
+            st.markdown("[Acessar Mercado Livre](https://luhveestore-unbgvh5h.manus.space)")
+            
+    with col2:
+        if st.button("🛍️ Shopee"):
+            st.markdown("[Acessar Shopee](https://luhveestore-unbgvh5h.manus.space)")
 
-    if st.button("📱 Falar com Suporte Humano"):
-        st.info("Você será redirecionado para o nosso WhatsApp de suporte.")
-        # Substitua pelo seu número real abaixo
-        st.markdown("[Falar no WhatsApp](https://wa.me/5511948021428)")
+    st.write("---")
+    
+    # --- 4. O BOTÃO DOS BALÕES ---
+    # Quando o cliente clica aqui, a mágica acontece!
+    if st.button("🚀 CLIQUE AQUI PARA VER TODAS AS OFERTAS"):
+        st.balloons() # Comando que faz os balões subirem
+        st.success(f"Excelente escolha, {nome}!")
+        st.markdown("### 🔗 [CLIQUE AQUI PARA ACESSAR NOSSA VITRINE COMPLETA](https://luhveestore-unbgvh5h.manus.space)")
 
-st.divider()
-st.caption("LuhVee Stores - Afiliado Autorizado Mercado Livre, Shopee e Digistore24")
+# Rodapé profissional
+st.write("---")
+st.caption("LuhVee Stores | Afiliado Autorizado | Mercado Livre - Shopee - Digistore24")
