@@ -1,40 +1,41 @@
-# --- DOCUMENTAÇÃO DO SEGMENTO ---
-# Projeto: Chatbot LuhVee Stores
-# Versão: 2.0
-# Objetivo: Assistente de vendas para afiliados.
+# --- DOCUMENTAÇÃO DO PROJETO ---
+# Projeto: Assistente Digital LuhVee Stores
+# Objetivo: Direcionar clientes para a vitrine de afiliados.
 
-def exibir_menu():
-    print("\n" + "="*30)
-    print("      LUHVEE STORES      ")
-    print("="*30)
-    print("1. Promoções Mercado Livre")
-    print("2. Ofertas Relâmpago Shopee")
-    print("3. Produtos Digitais (Digistore24)")
-    print("4. Falar com Atendimento Humano")
-    print("5. Sair")
-    print("="*30)
-
-def chatbot():
-    nome_cliente = input("Olá! Bem-vindo à LuhVee Stores. Como posso te chamar? ")
-    print(f"\nPrazer em te conhecer, {nome_cliente}! Eu sou o seu assistente virtual.")
+def iniciar_chatbot_luhvee():
+    # Esta variável guarda o seu link oficial
+    link_oficial = "https://luhveestore-unbgvh5h.manus.space"
     
-    while True:
-        exibir_menu()
-        opcao = input(f"{nome_cliente}, digite o número da opção desejada: ")
+    print("\n" + "="*45)
+    print("      🛍️  BEM-VINDO À LUHVEE STORES  🛍️      ")
+    print("="*45)
+    
+    nome = input("\nOlá! Como posso te chamar? ")
+    
+    print(f"\n[LuhVee]: Prazer em te atender, {nome}!")
+    print(f"[LuhVee]: Preparamos uma seleção incrível de produtos do")
+    print("         Mercado Livre, Shopee e Digistore24 para você.")
+    
+    print("\n" + "-"*45)
+    print(f"👉 ACESSE NOSSA VITRINE AQUI:")
+    print(f"🔗 {link_oficial}")
+    print("-" * 45)
+    
+    print(f"\n{nome}, basta clicar no link azul acima para ver as ofertas!")
+    print("\nDeseja algo mais?")
+    print("1. Ver o link novamente")
+    print("2. Encerrar atendimento")
 
-        if opcao == "1":
-            print("\n[LuhVee]: Aqui estão os achadinhos do Mercado Livre: [LINK AQUI]")
-        elif opcao == "2":
-            print("\n[LuhVee]: Aproveite os cupons da Shopee: [LINK AQUI]")
-        elif opcao == "3":
-            print("\n[LuhVee]: Confira nossos treinamentos na Digistore24: [LINK AQUI]")
-        elif opcao == "4":
-            print("\n[LuhVee]: Um momento! Vou te passar o contato do nosso WhatsApp.")
-        elif opcao == "5":
-            print(f"\nAté logo, {nome_cliente}! A LuhVee Stores agradece a preferência.")
+    while True:
+        escolha = input("\nDigite o número da sua opção: ")
+        
+        if escolha == "1":
+            print(f"\n[LuhVee]: Aqui está o seu acesso exclusivo: {link_oficial}")
+        elif escolha == "2":
+            print(f"\n[LuhVee]: Boas compras, {nome}! A LuhVee Stores agradece.")
             break
         else:
-            print("\n[Erro]: Ops! Essa opção não existe. Tente de 1 a 5.")
+            print("[Aviso]: Por favor, escolha a opção 1 ou 2.")
 
 if _name_ == "_main_":
-    chatbot()
+    iniciar_chatbot_luhvee()
