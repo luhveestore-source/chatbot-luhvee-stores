@@ -1,44 +1,51 @@
 
 import streamlit as st
 
-# Configuração da página
-st.set_page_config(page_title="LuhVee Stores - Oficial", page_icon="🛍️")
+# Configuração visual do Painel
+st.set_page_config(page_title="LuhVee Store Admin", page_icon="💰")
 
-# --- 1. EXIBIÇÃO DO LOGO ---
-# Tentamos carregar a imagem que você subiu no GitHub
-try:
-    st.image("1000396187.jpg", width=250) # Use o nome exato do arquivo que você subiu
-except:
-    st.title("💖 LUHVEE STORES")
+st.title("🤖 Painel de Controle: Robô Luana")
+st.markdown("---")
 
-# --- 2. BOAS-VINDAS ---
-st.write("---")
-nome = st.text_input("Olá! Para começar, qual é o seu nome?")
+# --- BANCO DE DADOS REAL ---
+links_vendas = {
+    "prodentim_en": {
+        "nome": "ProDentim (USA/International) 🦷",
+        "url": "http://exclusive-dental-deal.netlify.app",
+        "copy": "Hi! Here is your exclusive access to ProDentim: http://exclusive-dental-deal.netlify.app"
+    },
+    "shopee_br": {
+        "nome": "Minha Loja Shopee (Coleções) 🛍️",
+        "url": "https://collshp.com/luhveestores?view=storefront",
+        "copy": "Oi! Veja todos os meus achadinhos da Shopee aqui: https://collshp.com/luhveestores?view=storefront"
+    },
+    "mercadolivre_br": {
+        "nome": "Mercado Livre (Ofertas) 📦",
+        "url": "https://www.mercadolivre.com.br/social/axwelloliveira",
+        "copy": "Confira as ofertas que separei no Mercado Livre: https://www.mercadolivre.com.br/social/axwelloliveira"
+    },
+    "hotmart_br": {
+        "nome": "Hotmart (Produto VIP) ✨",
+        "url": "https://go.hotmart.com/B104903884Q",
+        "copy": "Aqui está o acesso ao conteúdo da Hotmart: https://go.hotmart.com/B104903884Q"
+    }
+}
 
-if nome:
-    st.subheader(f"Bem-vindo(a), {nome}! ✨")
-    st.write("Escolha uma das nossas vitrines especiais abaixo:")
+# --- ORGANIZAÇÃO EM ABAS ---
+tab_post, tab_links = st.tabs(["📲 Gerar Mensagem p/ Direct", "🔗 Gerenciar Links"])
 
-    # --- 3. DESTAQUES EM COLUNAS ---
-    col1, col2 = st.columns(2)
+with tab_post:
+    st.subheader("Selecione o Produto para o Robô:")
+    opcao = st.selectbox("Qual link deseja enviar?", list(links_vendas.keys()), format_func=lambda x: links_vendas[x]['nome'])
     
-    with col1:
-        if st.button("🎁 Mercado Livre"):
-            st.markdown("[Acessar Mercado Livre](https://luhveestore-unbgvh5h.manus.space)")
-            
-    with col2:
-        if st.button("🛍️ Shopee"):
-            st.markdown("[Acessar Shopee](https://luhveestore-unbgvh5h.manus.space)")
+    st.write("Copia a mensagem abaixo e cola na automação do seu Instagram/WhatsApp:")
+    st.code(links_vendas[opcao]['copy'])
 
-    st.write("---")
-    
-    # --- 4. O BOTÃO DOS BALÕES ---
-    # Quando o cliente clica aqui, a mágica acontece!
-    if st.button("🚀 CLIQUE AQUI PARA VER TODAS AS OFERTAS"):
-        st.balloons() # Comando que faz os balões subirem
-        st.success(f"Excelente escolha, {nome}!")
-        st.markdown("### 🔗 [CLIQUE AQUI PARA ACESSAR NOSSA VITRINE COMPLETA](https://luhveestore-unbgvh5h.manus.space)")
+with tab_links:
+    st.subheader("Links Oficiais de Afiliada")
+    for chave, info in links_vendas.items():
+        with st.expander(info['nome']):
+            st.write(f"**URL de Destino:** {info['url']}")
+            st.button(f"Testar Link {chave}", on_click=lambda url=info['url']: st.write(f"Abrindo... {url}"))
 
-# Rodapé profissional
-st.write("---")
-st.caption("LuhVee Stores | Afiliado Autorizado | Mercado Livre - Shopee - Digistore24")
+st.sidebar.success("O Robô está ativo e sincronizado!")
