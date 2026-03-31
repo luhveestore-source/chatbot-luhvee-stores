@@ -1,8 +1,7 @@
 import streamlit as st
-import random
 
 # Configuração da página
-st.set_page_config(page_title="Robô Luana - Copywriter Pro", page_icon="🛍️")
+st.set_page_config(page_title="Robô Luana - Central de Automação", page_icon="🛍️")
 
 # --- BANCO DE LINKS ---
 links_luhvee = {
@@ -13,90 +12,91 @@ links_luhvee = {
     "ProDentim Systeme.io 🚀": "https://luhvee-store.systeme.io/prodentim-special"
 }
 
-# --- LOGO ---
+# --- EXIBIÇÃO DO LOGO ---
 try:
     st.image("1000396187.jpg", width=200)
 except:
     st.title("💖 LUHVEE STORES")
 
-st.title("🤖 Robô Luana: Sua Máquina de Vendas")
+st.title("🤖 Robô Luana: Sua Agência de Vendas")
 st.markdown("---")
 
 # Menu Lateral
 with st.sidebar:
     st.header("⚙️ Configurações")
-    nicho = st.selectbox("O que vamos vender?", 
-                        ["Cozinha e Casa", "Limpeza Prática", "Moda", "Beleza", "Eletrônicos", "ProDentim (USA/English)"])
+    nicho = st.selectbox("Nicho do Produto:", 
+                        ["Achadinhos Brasil", "ProDentim (USA/English)", "Cozinha", "Beleza", "Limpeza"])
     
-    redes = st.multiselect("Gerar para quais redes?", 
+    canal = st.multiselect("Gerar para quais redes?", 
                           ["Instagram", "Facebook", "WhatsApp/Telegram", "ManyChat (DM)"],
                           default=["Instagram", "Facebook", "WhatsApp/Telegram", "ManyChat (DM)"])
+    
     st.divider()
-    st.warning("⚠️ **DICA:** Não esqueça a **MARCA D'ÁGUA**!")
+    st.warning("⚠️ **AVISO:** Aplique sua **MARCA D'ÁGUA** antes de publicar!")
 
 # Entrada de Dados
-st.subheader("📝 Detalhes do Produto")
-if nicho == "ProDentim (USA/English)":
-    nome_prod = "ProDentim"
-    preco_prod = st.text_input("Offer Price (ex: $49/bottle):")
-    vitrine_final = st.selectbox("Select Destination:", ["ProDentim Presell 🦷", "ProDentim Systeme.io 🚀"])
-else:
-    nome_prod = st.text_input("Nome do Produto:")
-    preco_prod = st.text_input("Preço (R$):")
-    vitrine_final = st.selectbox("Escolha a vitrine:", ["Shopee 🛍️", "Centralizador 🌐", "Mercado Livre 📦"])
+st.subheader("📝 Detalhes da Oferta")
+col_1, col_2 = st.columns(2)
 
-link_final = links_luhvee[vitrine_final]
-
-# --- LÓGICA DE COPYWRITING (FRASES PERSUASIVAS) ---
-def gerar_copy(nicho, produto, preco, rede):
-    # Dicionário de Gatilhos Mentais
-    if nicho == "Cozinha e Casa":
-        frase = f"🍳 Chega de sofrer na cozinha! O(a) {produto} é o braço direito que faltava. Praticidade pura por R${preco}! ✨"
-    elif nicho == "Limpeza Prática":
-        frase = f"🧹 Limpeza num piscar de olhos! Com esse(a) {produto}, sua casa brilha sem esforço. Só R${preco}! 💎"
-    elif nicho == "Moda":
-        frase = f"💃 O look perfeito existe! Esse(a) {produto} vai te deixar ainda mais maravilhosa por apenas R${preco}. 😍"
-    elif nicho == "Beleza":
-        frase = f"✨ Realce sua beleza com o que há de melhor! O(a) {produto} chegou para transformar sua rotina por R${preco}. 💖"
-    elif nicho == "Eletrônicos":
-        frase = f"🚀 Tecnologia de ponta no seu bolso! O(a) {produto} é o upgrade que você merece. Garanta o seu por R${preco}! ⚡"
-    elif nicho == "ProDentim (USA/English)":
-        frase = f"🦷 Stop hiding your smile! Rebuild your oral health with ProDentim. Only {preco}! 🛍️"
+with col_1:
+    if nicho == "ProDentim (USA/English)":
+        nome_prod = "ProDentim"
+        st.info("🌎 Mode: English Active")
     else:
-        frase = f"🔥 Achadinho imperdível! O(a) {produto} por apenas R${preco}. Você não pode perder! 🛍️"
+        nome_prod = st.text_input("Nome do Produto:")
+with col_2:
+    preco_prod = st.text_input("Preço:")
 
-    return frase
+# Escolha da Vitrine
+vitrine_escolhida = st.selectbox("Enviar para qual link?", list(links_luhvee.keys()))
+link_final = links_luhvee[vitrine_escolhida]
 
-if st.button("🚀 GERAR SCRIPTS DE VENDA"):
+if st.button("🚀 GERAR ROTEIRO COMPLETO"):
     if preco_prod:
         st.balloons()
-        copy_base = gerar_copy(nicho, nome_prod, preco_prod, "Geral")
+        st.markdown("---")
         
-        # --- INSTAGRAM ---
-        if "Instagram" in redes:
-            st.subheader("📸 Instagram (Persuasivo + Trava 120)")
-            legenda_insta = f"{copy_base} Link na Bio! #luhvee #oferta"
-            st.code(legenda_insta[:120])
+        # --- INSTAGRAM (COM GATILHO INFO + 120 LETRAS) ---
+        if "Instagram" in canal:
+            st.subheader("📸 Legenda Instagram (Gatilho INFO)")
+            if nicho == "ProDentim (USA/English)":
+                txt_insta = f"🦷 Stop hiding your smile! Rebuild oral health. 🛍️ Comment INFO for the link! #prodentim #smile"
+            else:
+                txt_insta = f"🤩 {nome_prod} por R${preco_prod}! ✨ Mudou minha rotina! 🚀 Comente INFO que te mando o link no Direct!"
+            
+            legenda_final = txt_insta[:120] # TRAVA DE 120 CARACTERES
+            st.code(legenda_final)
+            st.caption(f"Tamanho: {len(legenda_final)}/120")
 
         # --- FACEBOOK ---
-        if "Facebook" in redes:
-            st.subheader("🔵 Facebook (Gatilho de Urgência)")
-            txt_fb = f"📢 VOCÊ PRECISA DISSO: {nome_prod}!\n{copy_base}\n📍 Compre aqui agora: {link_final}\n✅ Siga LuhVee Stores para não perder!"
+        if "Facebook" in canal:
+            st.subheader("🔵 Post para Facebook")
+            if nicho == "ProDentim (USA/English)":
+                txt_fb = f"📢 Tired of gum issues? Try ProDentim! 🦷✨\n💰 Price: {preco_prod}\n📍 Get it here: {link_final}"
+            else:
+                txt_fb = f"📢 ACHADINHO: {nome_prod}\n💰 Apenas R${preco_prod}\n📍 Link: {link_final}\n✅ Siga LuhVee Stores!"
             st.code(txt_fb)
 
         # --- WHATSAPP ---
-        if "WhatsApp/Telegram" in redes:
-            st.subheader("📲 WhatsApp (Direto ao ponto)")
-            txt_wa = f"🔥 *OFERTA EXCLUSIVA!* \n\n*Produto:* {nome_prod}\n{copy_base}\n\n🔗 *Link Promocional:* {link_final}"
+        if "WhatsApp/Telegram" in canal:
+            st.subheader("📲 Para WhatsApp / Grupos")
+            if nicho == "ProDentim (USA/English)":
+                txt_wa = f"⭐ *PRODENTIM OFFER* ⭐\n\nAdvanced Oral Care!\n🔗 *Link:* {link_final}"
+            else:
+                txt_wa = f"🔥 *OFERTA LUHVEE STORES* 🔥\n\n*Produto:* {nome_prod}\n*Valor:* R${preco_prod}\n🔗 *Link:* {link_final}"
             st.code(txt_wa)
 
-        # --- MANYCHAT ---
-        if "ManyChat (DM)" in redes:
-            st.subheader("🤖 ManyChat (Atendimento VIP)")
-            txt_dm = f"Oi! ✨ Ótima escolha! O(a) {nome_prod} é um dos nossos campeões de vendas.\n\nAqui está o seu link: {link_final} \n\nAproveite! 😊"
+        # --- MANYCHAT (DM AUTOMÁTICA) ---
+        if "ManyChat (DM)" in canal:
+            st.subheader("🤖 Resposta do ManyChat (Direct)")
+            if nicho == "ProDentim (USA/English)":
+                txt_dm = f"Hi! ✨ Here is your link for ProDentim: \n\n🔗 {link_final} \n\nEnjoy! 😊"
+            else:
+                txt_dm = f"Olá! ✨ Fico feliz com seu interesse no(a) {nome_prod}!\n\nAqui está o seu link exclusivo: \n🔗 {link_final}\n\nBoas compras! 😊"
             st.code(txt_dm)
+            
     else:
-        st.error("Preencha o preço para gerar a copy!")
+        st.error("Preencha o preço para gerar o conteúdo!")
 
 st.divider()
-st.caption("LuhVee Stores - Inteligência em Vendas v5.0")
+st.caption("LuhVee Stores - Automação Total v6.0")
