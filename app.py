@@ -1,84 +1,100 @@
 import streamlit as st
 
 # Configuração da página
-st.set_page_config(page_title="Robô Luana - Global Marketing", page_icon="🛍️")
+st.set_page_config(page_title="Robô Luana - Central Multi-Vendas", page_icon="🛍️")
 
-# --- BANCO DE LINKS (ATUALIZADO) ---
+# --- BANCO DE LINKS (TUDO UNIFICADO) ---
 links_luhvee = {
     "Shopee 🛍️": "https://collshp.com/luhveestores?view=storefront",
     "Centralizador 🌐": "https://luhveestore-unbgvh5h.manus.space",
     "Mercado Livre 📦": "https://www.mercadolivre.com.br/social/axwelloliveira",
-    "ProDentim Presell 🦷": "http://exclusive-dental-deal.netlify.netlify.app",
+    "ProDentim Presell 🦷": "http://exclusive-dental-deal.netlify.app",
     "ProDentim Systeme.io 🚀": "https://luhvee-store.systeme.io/prodentim-special"
 }
 
-# --- LOGO ---
+# --- EXIBIÇÃO DO LOGO ---
 try:
     st.image("1000396187.jpg", width=200)
 except:
     st.title("💖 LUHVEE STORES")
 
-st.title("🤖 Robô Luana: Global Sales Agency")
+st.title("🤖 Robô Luana: Sua Agência Digital")
 st.markdown("---")
 
-# Menu Lateral
+# Menu Lateral para Organização
 with st.sidebar:
-    st.header("⚙️ Settings / Configurações")
-    nicho = st.selectbox("Product / Nicho:", 
-                        ["Achadinhos Brasil", "ProDentim (USA/English)"])
+    st.header("⚙️ Configurações")
+    nicho = st.selectbox("Escolha o Nicho / Product:", 
+                        ["Achadinhos Brasil", "ProDentim (USA/English)", "Cozinha", "Beleza", "Eletrônicos"])
     
-    canal = st.multiselect("Social Media:", 
-                          ["Instagram", "Facebook", "WhatsApp", "ManyChat"],
-                          default=["Instagram", "Facebook"])
+    redes = st.multiselect("Gerar para quais redes?", 
+                          ["Instagram", "Facebook", "WhatsApp/Telegram", "ManyChat (DM)"],
+                          default=["Instagram", "Facebook", "WhatsApp/Telegram", "ManyChat (DM)"])
     
     st.divider()
-    st.warning("⚠️ **REMINDER:** Apply your WATERMARK to all images before posting!")
+    st.warning("⚠️ **LEMBRETE:** Aplique sua **MARCA D'ÁGUA** em todas as imagens antes de publicar!")
 
 # Entrada de Dados
-st.subheader("📝 Campaign Details")
+st.subheader("📝 Detalhes do Produto")
 
 if nicho == "ProDentim (USA/English)":
     st.info("🌎 Mode: English Language Active")
     nome_produto = "ProDentim - Advanced Oral Care"
     preco_produto = st.text_input("Offer Price (ex: $49/bottle):")
-    vitrine_escolhida = st.selectbox("Select Destination:", ["ProDentim Presell 🦷", "ProDentim Systeme.io 🚀"])
+    vitrine_final = st.selectbox("Select Destination:", ["ProDentim Presell 🦷", "ProDentim Systeme.io 🚀"])
 else:
     nome_produto = st.text_input("Nome do Produto:")
     preco_produto = st.text_input("Preço (R$):")
-    vitrine_escolhida = st.selectbox("Escolha a vitrine:", ["Shopee 🛍️", "Centralizador 🌐", "Mercado Livre 📦"])
+    vitrine_final = st.selectbox("Escolha a vitrine:", ["Shopee 🛍️", "Centralizador 🌐", "Mercado Livre 📦"])
 
-link_final = links_luhvee[vitrine_escolhida]
+link_escolhido = links_luhvee[vitrine_final]
 
-if st.button("🚀 GENERATE SCRIPT & CELEBRATE"):
+if st.button("🚀 GERAR ROTEIRO E COMEMORAR"):
     if preco_produto:
         st.balloons()
+        st.markdown("---")
         
-        # --- LÓGICA PRODENTIM (INGLÊS) ---
-        if nicho == "ProDentim (USA/English)":
-            if "Instagram" in canal:
-                st.subheader("📸 Instagram Caption (120 chars limit)")
-                # Legenda em Inglês com limite de 120
-                eng_insta = f"🦷 Healthy teeth & gums! ✨ Discover ProDentim's secret. 🛍️ LINK IN BIO! #oralhealth #prodentim #white-teeth"
-                st.code(eng_insta[:120])
-                
-            if "Facebook" in canal:
-                st.subheader("🔵 Facebook Ad Copy")
-                st.code(f"📢 Tired of gum issues? Try ProDentim! 🦷✨\n✅ Fresh breath & strong teeth.\n💰 Special Offer: {preco_produto}\n📍 Get yours here: {link_final}")
+        # --- SEÇÃO 1: INSTAGRAM (COM TRAVA DE 120 CARACTERES) ---
+        if "Instagram" in redes:
+            st.subheader("📸 Legenda Instagram (Máx 120 letras)")
+            if nicho == "ProDentim (USA/English)":
+                texto_insta = f"🦷 Healthy teeth & gums! ✨ Discover ProDentim's secret. 🛍️ LINK IN BIO! #oralhealth #prodentim #whiteteeth"
+            else:
+                texto_insta = f"🔥 {nome_produto} por R${preco_produto}! ✨ Praticidade pra sua casa. 🛍️ LINK NA BIO! #luhvee #achadinhos"
             
-            if "ManyChat" in canal:
-                st.subheader("🤖 ManyChat / DM Response")
-                st.code(f"Hi! ✨ Here is your exclusive link for ProDentim: \n\n🔗 {link_final} \n\nHave a great day! 😊")
+            legenda_final = texto_insta[:120]
+            st.code(legenda_final)
+            st.caption(f"Caracteres: {len(legenda_final)}/120")
 
-        # --- LÓGICA ACHADINHOS (PORTUGUÊS) ---
-        else:
-            if "Instagram" in canal:
-                st.subheader("📸 Legenda Instagram (Máx 120 letras)")
-                pt_insta = f"🔥 {nome_produto} por R${preco_produto}! ✨ Praticidade pra sua casa. 🛍️ LINK NA BIO! #luhvee #achadinhos"
-                st.code(pt_insta[:120])
+        # --- SEÇÃO 2: FACEBOOK ---
+        if "Facebook" in redes:
+            st.subheader("🔵 Post Facebook")
+            if nicho == "ProDentim (USA/English)":
+                txt_fb = f"📢 Tired of gum issues? Try ProDentim! 🦷✨\n✅ Fresh breath & strong teeth.\n💰 Special Offer: {preco_produto}\n📍 Get yours here: {link_escolhido}"
+            else:
+                txt_fb = f"📢 ACHADINHO: {nome_produto}\n💰 Por apenas R${preco_produto}\n📍 Confira: {link_escolhido}\n✅ Siga LuhVee Stores!"
+            st.code(txt_fb)
 
-            if "Facebook" in canal:
-                st.subheader("🔵 Post Facebook")
-                st.code(f"📢 ACHADINHO: {nome_produto}\n💰 Por apenas R${preco_produto}\n📍 Confira: {link_final}\n✅ Siga LuhVee Stores!")
+        # --- SEÇÃO 3: WHATSAPP / TELEGRAM ---
+        if "WhatsApp/Telegram" in redes:
+            st.subheader("📲 Para WhatsApp / Telegram")
+            if nicho == "ProDentim (USA/English)":
+                txt_wa = f"⭐ *PRODENTIM SPECIAL OFFER* ⭐\n\nAdvanced Oral Care for you!\n💰 *Price:* {preco_produto}\n🔗 *Link:* {link_escolhido}"
+            else:
+                txt_wa = f"⭐ *OFERTA LUHVEE STORES* ⭐\n\n*Produto:* {nome_produto}\n*Valor:* R${preco_produto}\n🔗 *Link:* {link_escolhido}\n\n_Aproveite agora!_"
+            st.code(txt_wa)
 
-st.divider()
-st.caption("LuhVee Stores - Global Marketing Automation")
+        # --- SEÇÃO 4: MANYCHAT (DM) ---
+        if "ManyChat (DM)" in redes:
+            st.subheader("🤖 Para ManyChat (Automação)")
+            if nicho == "ProDentim (USA/English)":
+                txt_dm = f"Hi! ✨ Here is the link for ProDentim you requested: \n\n🔗 {link_escolhido} \n\nAny questions, just ask! 😊"
+            else:
+                txt_dm = f"Olá! ✨ Aqui está o link do(a) {nome_produto} que você viu: \n\n🔗 {link_escolhido} \n\nBoas compras! 😊"
+            st.code(txt_dm)
+            
+    else:
+        st.error("❌ Por favor, preencha os detalhes do preço para gerar o conteúdo.")
+
+st.markdown("---")
+st.caption("LuhVee Stores - Central de Automação Global v4.0")
